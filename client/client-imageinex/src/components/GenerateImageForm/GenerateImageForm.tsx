@@ -3,6 +3,7 @@ import Button from "../Button/Button";
 import TextInput from "../TextInput/TextInput";
 import Styled from "styled-components";
 import { AutoAwesome, CreateRounded } from "@mui/icons-material";
+import {  GeneratePhoto } from "../../api/index";
 
 const Form = Styled.div` 
 flex: 1;
@@ -46,7 +47,7 @@ gap: 0.5rem;
 interface Post {
   name: string;
   prompt: string;
-  Url: string;
+  photo: string;
 }
 
 interface GenerateImageFormProps {
@@ -67,8 +68,19 @@ const GenerateImageForm: React.FC<GenerateImageFormProps> = ({
   GeneratePostLoading,
 }) => {
   
-  const  HandleGenerateImageLoading =()=>{
+  const  HandleGenerateImageLoading = async()=>{
     setGenerateImageLoading(true);
+    console.log("calling Prompt:", post.prompt);
+    await GeneratePhoto({ prompt: post.prompt }).then((res)=>{
+      setPost({...post, photo: res?.data?.photo});
+      setGenerateImageLoading(false);
+
+  }).catch((err)=>{
+    console.log(err);
+    setGenerateImageLoading(false);
+    
+  });
+
   }
   const HandleGeneratePostLoading =()=>{    
     setGeneratePostLoading(true);
@@ -110,7 +122,7 @@ const GenerateImageForm: React.FC<GenerateImageFormProps> = ({
           leftIcon={<CreateRounded />}
           type="secondary"
           isLoading={GeneratePostLoading}
-          isDisabled={post.name === "" || post.Url === "" || post.prompt === ""}
+          isDisabled={post.name === "" || post.photo === "" || post.prompt === ""}
           onClick={()=>HandleGeneratePostLoading()}
         />
       </Actions>

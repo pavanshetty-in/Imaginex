@@ -59,7 +59,7 @@ const CreatePost = () => {
   const [post, setPost] = useState({
     name: "",
     prompt: "",
-    Url: "",
+    photo: "",
   });
   return (
     <Container>
@@ -74,7 +74,7 @@ const CreatePost = () => {
         />
         <GeneratedImageCard
           GenerateImageLoading={GenerateImageLoading}
-          src={post.Url}
+          src={post.photo}
         />
       </Wrapper>
     </Container>

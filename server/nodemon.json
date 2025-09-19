@@ -1,0 +1,14 @@
+{
+  "watch": ["src", "routes"],
+  "ignore": [
+    "logs/*",
+    "uploads/*", 
+    "public/*",
+    "temp/*",
+    "./controllers/GeneratePhoto.js",
+    "node_modules/*"
+  ],
+  "ext": "js,json,ts",
+  "delay": 2000,
+  "verbose": true
+}
