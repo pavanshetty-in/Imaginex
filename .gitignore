@@ -9,7 +9,7 @@ lerna-debug.log*
 
 node_modules
 client/client-imageinex/node_modules
-client/client-imageinex/eslint.config.js
+# client/client-imageinex/eslint.config.js
 client/client-imageinex/.env
 server/.env
 server/node_modules
