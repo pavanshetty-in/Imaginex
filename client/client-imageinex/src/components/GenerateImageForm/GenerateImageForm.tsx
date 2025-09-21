@@ -3,15 +3,21 @@ import Button from "../Button/Button";
 import TextInput from "../TextInput/TextInput";
 import Styled from "styled-components";
 import { AutoAwesome, CreateRounded } from "@mui/icons-material";
-import {  GeneratePhoto } from "../../api/index";
+import {  GeneratePhoto, CreatePost } from "../../api/index";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Form = Styled.div` 
 flex: 1;
-padding: 1rem 2rem;
+padding: 0.2rem 0.2rem;
 display: flex;
 flex-direction: column;
 gap: 1.5rem;
 justify-content: center;
+
+@media (min-width: 426px) {
+    padding: 1rem 2rem;
+  }
 `;
 const Top = Styled.div`
 display: flex;
@@ -67,8 +73,11 @@ const GenerateImageForm: React.FC<GenerateImageFormProps> = ({
   setGeneratePostLoading,
   GeneratePostLoading,
 }) => {
+  const navigation =useNavigate();
+  const [error,setError] = useState<string>("");
   
   const  HandleGenerateImageLoading = async()=>{
+    
     setGenerateImageLoading(true);
     console.log("calling Prompt:", post.prompt);
     await GeneratePhoto({ prompt: post.prompt }).then((res)=>{
@@ -77,13 +86,23 @@ const GenerateImageForm: React.FC<GenerateImageFormProps> = ({
 
   }).catch((err)=>{
     console.log(err);
+    setError(err?.response?.data?.message || "Something went wrong");
     setGenerateImageLoading(false);
     
   });
 
   }
-  const HandleGeneratePostLoading =()=>{    
+  const HandleGeneratePostLoading = async()=>{    
     setGeneratePostLoading(true);
+    await CreatePost(post).then(()=>{
+      setGeneratePostLoading(false);
+      navigation("/");
+    }).catch((err)=>{
+      console.log(err);
+      setError(err?.response?.data?.message || "Something went wrong");
+      setGeneratePostLoading(false);
+      
+    });
   }
 
 
@@ -112,6 +131,7 @@ const GenerateImageForm: React.FC<GenerateImageFormProps> = ({
           handelChange={(e) => setPost({ ...post, prompt: e.target.value })}
         />
       </Body>
+      {error && <p style={{color:'red'}}>{error}</p>}
       <Actions>
         <Button text="Generate Image" leftIcon={<AutoAwesome />} 
         isLoading={GenerateImageLoading}

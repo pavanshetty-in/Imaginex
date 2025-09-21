@@ -79,12 +79,12 @@ const button: React.FC<ButtonProps> = ({
       isLoading={isLoading}
       flex={flex}
     >
-      {isLoading && (
+      {isLoading ? (
         <CircularProgress
           style={{ width: "18px", height: "18px", color: "inherit" }}
         />
-      )}
-      {leftIcon}
+      ):(<>{leftIcon}</>)}
+      
       {text}
       {isLoading && <> . . .</>}
       {rightIcon}

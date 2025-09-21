@@ -12,5 +12,5 @@ interface Prompt {
 }
 
 export const GetPosts = async () => await API.get("/post/");
-export const CreatePost = async (newPost: Post) => await API.post("/post/", newPost);
+export const CreatePost = async (post: Post) => await API.post("/post/", post);
 export const GeneratePhoto = async (prompt: Prompt) => await API.post("/GeneratePhoto/",prompt);

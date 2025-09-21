@@ -24,10 +24,11 @@ export const getPosts = async (req, res, next) => {
 
 export const createPost = async (req, res, next) => {
   try {
+    console.log("body received in backend:", req.body.prompt);
     const { name, prompt, photo } = req.body;
     const photourl = await Cloudinary.uploader.upload(photo,{
-    folder: "imaginex",
-});
+    folder: "imageinex",
+    });
     const newPost = await Post.create({ name, prompt, photo: photourl?.secure_url });
     return res.status(201).json({ success: true, data: newPost });  
 

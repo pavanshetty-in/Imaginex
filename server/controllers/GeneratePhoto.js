@@ -47,8 +47,7 @@ export const generatePhoto = async (req, res, next) => {
     return res.status(200).json({ photo: imageBuffer});
   } catch (error) {
     return next(
-      console.log("   error in create post controller", error),
-      createError(err.status, err?.response?.data?.err.message || err.message)
+      createError(error.status, error?.response?.data?.err.message || error.message)
     );
   }
 };

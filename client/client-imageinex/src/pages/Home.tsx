@@ -1,6 +1,10 @@
+import React from "react";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar/SearchBar";
 import ImageCard from "../components/ImageCard/ImageCard";
+import { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material";
+import { GetPosts } from "../api";
 
 const Container = styled.div`
   height: 100%;
@@ -64,7 +68,57 @@ const CardWrapper = styled.div`
   }
 `;
 
-const Home = () => {
+interface Post {
+  name: string;
+  prompt: string;
+  photo: string;
+}
+
+const Home:React.FC = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [error, setError] = useState("");
+  const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
+
+  const getPosts = async () => {
+    setLoading(true); 
+    await GetPosts().then((res) => {
+      setLoading(false);
+      setPosts(res?.data?.data);
+      setFilteredPosts(res?.data?.data)
+    }).catch((err) => {
+      setLoading(false);
+      setError(err?.response?.data?.message || "Something went wrong");
+    })
+
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  useEffect(()=>{
+    if(!searchText){
+      setFilteredPosts(posts);
+    }
+    const SearchFilteredPosts = posts.filter((item)=>{
+      const promptMatch = item?.prompt?.toLowerCase().includes(searchText.toString().toLowerCase())
+      console.log(`${searchText} match prompt ${item.prompt} :${promptMatch}`)
+      const authortMatch = item?.name?.toLowerCase().includes(searchText.toString().toLowerCase())
+      console.log(`${searchText} match Author ${item.name}:${authortMatch}`)
+
+      return promptMatch || authortMatch
+    })
+
+    if(searchText){
+      setFilteredPosts(SearchFilteredPosts);
+    }
+  },[posts, searchText])
+
+  
+  
+
   return (
     <Container>
       <HeadLine>
@@ -72,18 +126,18 @@ const Home = () => {
         <Span>Generated with AI</Span>
       </HeadLine>
 
-      <SearchBar />
+      <SearchBar searchText={searchText} setSearchText={setSearchText}/>
       <Wrapper>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        {loading ? (<CircularProgress />) : (
         <CardWrapper>
-          <ImageCard />
-          <ImageCard />
-          <ImageCard />
-          <ImageCard />
-          <ImageCard />
-          <ImageCard />
-          <ImageCard />
-          <ImageCard />
+          {filteredPosts.length === 0 ? (<>No Posts Found</>) : (
+            filteredPosts.slice().reverse().map((item,index) => <ImageCard post={item} key={index} />)
+          )}
+         
         </CardWrapper>
+
+        )}
       </Wrapper>
     </Container>
   );

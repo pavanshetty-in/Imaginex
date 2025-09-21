@@ -66,21 +66,27 @@ const DownloadDiv = {
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    
+}
+interface Post {
+  name: string;
+  prompt: string;
+  photo: string;
 }
 
-const ImageCard = () => {
+const ImageCard = ({ post }: { post: Post }) => {
     return (
         <Card>
             <LazyLoadImage
                 width={"100%"}
-                src="https://www.albertjuhe.com/images/02.jpg"
+                src={post.photo}
             />
             <HoverOverlay>
-                <Prompt>Lorem ipsum dolor </Prompt>
+                <Prompt>{post.prompt} </Prompt>
                 <div style={DownloadDiv}><Author>
-                    <Avatar style={{ width: "1.6rem", height: "1.6rem", fontSize: "1em" }}>S</Avatar>
-                    Pavan Shetty</Author>
-                    <DownloadRounded onClick={() => FileSaver.saveAs(`https://www.albertjuhe.com/images/02.jpg`, `download.jpg`)} />
+                    <Avatar style={{ width: "1.6rem", height: "1.6rem", fontSize: "1em", backgroundColor:"#6D6875" }}>{post.name[0]}</Avatar>
+                    {post.name}</Author>
+                    <DownloadRounded onClick={() => FileSaver.saveAs(post.photo, `download.jpg`)} />
                 </div>
 
             </HoverOverlay>

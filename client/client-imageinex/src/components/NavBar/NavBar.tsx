@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Button from "../Button/Button";
-import { AddRounded, ExploreRounded } from "@mui/icons-material";
+import { LensBlur, ExploreRounded } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Container = styled.div`
@@ -37,8 +37,8 @@ const NavBar = () => {
       ) : (
         <Button
           onClick={() => navigate("/post")}
-          text="Create new Post"
-          leftIcon={<AddRounded style={{ fontSize: "18px" }} />}
+          text="Generate AI Visual"
+          leftIcon={<LensBlur style={{ fontSize: "32px" }} />}
         />
       )}
     </Container>
