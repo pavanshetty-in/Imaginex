@@ -104,9 +104,9 @@ const Home:React.FC = () => {
     }
     const SearchFilteredPosts = posts.filter((item)=>{
       const promptMatch = item?.prompt?.toLowerCase().includes(searchText.toString().toLowerCase())
-      console.log(`${searchText} match prompt ${item.prompt} :${promptMatch}`)
+      // console.log(`${searchText} match prompt ${item.prompt} :${promptMatch}`)
       const authortMatch = item?.name?.toLowerCase().includes(searchText.toString().toLowerCase())
-      console.log(`${searchText} match Author ${item.name}:${authortMatch}`)
+      // console.log(`${searchText} match Author ${item.name}:${authortMatch}`)
 
       return promptMatch || authortMatch
     })

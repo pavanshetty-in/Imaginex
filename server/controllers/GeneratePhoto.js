@@ -37,12 +37,11 @@ const getImageAsBuffer = async(imageUrl)=>{
 
 export const generatePhoto = async (req, res, next) => {
   try {
-    console.log("body received in backend:",  req.body);
+
     const { prompt } = req.body;
     console.log("Prompt received in backend:", prompt);
     const response = await app.predict("/infer", { prompt: prompt });
     console.log("response from flux", response.data[0]);
-    console.log("response from flux URL", response.data[0].url);
     const imageBuffer = await getImageAsBuffer(response.data[0]?.url);
     return res.status(200).json({ photo: imageBuffer});
   } catch (error) {

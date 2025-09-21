@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:8080/api" });
+//Base API end point
+const API = axios.create({ baseURL: "https://imaginex-po2n.onrender.com/api" });
 
 interface Post {
   name: string;
