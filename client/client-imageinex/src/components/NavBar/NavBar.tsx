@@ -36,7 +36,7 @@ const NavBar = () => {
   return (
     <Container>
       <LogoDiv>
-        <img src="./../../public/imageinex.svg" width="25" height="25" style={{paddingTop:"2px"}} />
+        <img src="https://res.cloudinary.com/drlaziud8/image/upload/v1758469600/imageinex/Imageinex_hxmiek.svg" width="25" height="25" style={{paddingTop:"2px"}} />
         Imageinex
       </LogoDiv>
 
